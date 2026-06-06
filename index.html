@@ -1,289 +1,86 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recetario</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#111111;
-      --line:#111111;
-      --muted:#5b5b5b;
-      --radius:18px;
-      --space-1:4px;
-      --space-2:8px;
-      --space-3:12px;
-      --space-4:16px;
-      --space-5:20px;
-      --space-6:24px;
-      --space-8:32px;
-      --space-10:40px;
-      --space-12:48px;
-      --text-xs:12px;
-      --text-sm:14px;
-      --text-base:16px;
-      --text-lg:20px;
-      --text-xl:28px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family:'Inter', sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-    }
-    button,input{font:inherit;color:inherit}
-    a{text-decoration:none;color:inherit}
-    .app{min-height:100dvh}
-    .screen{display:none;min-height:100dvh;background:#fff}
-    .screen.active{display:block}
-
-    .home{
-      display:grid;
-      grid-template-rows:repeat(4,minmax(0,1fr));
-      height:100dvh;
-      min-height:100dvh;
-    }
-    .menu-link{
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      padding:24px 20px;
-      border-bottom:1px solid var(--line);
-      font-size:clamp(4.6rem, 15vw, 6.8rem);
-      letter-spacing:-0.075em;
-      line-height:0.84;
-      font-weight:500;
-      background:#fff;
-      transition:background .18s ease,color .18s ease;
-      min-height:0;
-    }
-    .menu-link:first-child{border-top:1px solid var(--line)}
-    .menu-link:hover,.menu-link:focus-visible{background:#111;color:#fff;outline:none}
-
-    .section-view{padding:28px 20px}
-    .section-shell{max-width:1200px;margin:0 auto}
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:var(--space-4);
-      margin-bottom:var(--space-6);
-      padding-top:var(--space-2);
-    }
-    .back{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:999px;
-      padding:10px 14px;
-      cursor:pointer;
-    }
-    .section-title{font-size:var(--text-xl);letter-spacing:-0.05em;font-weight:500}
-    .filters{display:grid;gap:var(--space-4);margin-bottom:var(--space-8)}
-    .filter-group{border-top:1px solid var(--line);padding-top:var(--space-3)}
-    .filter-label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-3)}
-    .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
-    .chip{
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:#fff;
-      padding:10px 14px;
-      font-size:15px;
-      font-weight:500;
-      cursor:pointer;
-    }
-    .chip:hover,.chip.active{background:#111;color:#fff}
-    .empty-note{
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.55;
-      margin-bottom:var(--space-8);
-      max-width:46ch;
-    }
-    .cards{display:grid;gap:32px}
-    .card{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      overflow:hidden;
-      background:#fff;
-    }
-    .card-image-wrap{padding:var(--space-4) var(--space-4) 0 var(--space-4)}
-    .card-image{
-      aspect-ratio:4/3;
-      border-radius:calc(var(--radius) - 6px);
-      background:linear-gradient(135deg,#efefef,#dcdcdc);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#666;
-      font-size:16px;
-      font-weight:500;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-    .card-separator-space{height:var(--space-4);background:#fff}
-    .card-separator{height:1px;background:var(--line)}
-    .card-body{padding:var(--space-4)}
-    .card-title{font-size:22px;letter-spacing:-0.045em;margin-bottom:var(--space-3);font-weight:500}
-    .card-intro{font-size:16px;line-height:1.6;color:var(--text);margin-bottom:var(--space-4);max-width:54ch}
-    .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
-    .meta-block{display:grid;gap:var(--space-2)}
-    .meta-label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-    .meta-content{font-size:16px;line-height:1.5;}
-    .meta-content.tech{font-family:'Space Mono', monospace;}
-    .muted{color:var(--muted);font-family:'Inter', sans-serif;}
-
-    @media (min-width: 900px){
-      .section-view{padding:var(--space-8)}
-      .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8)}
-      .menu-link{padding:28px 28px;font-size:clamp(5.2rem, 9vw, 7.4rem);letter-spacing:-0.08em;line-height:0.82}
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
   </style>
 </head>
 <body>
-  <div class="app">
-    <main id="homeScreen" class="screen home active" aria-label="Menú principal">
-      <a href="#desayuno" class="menu-link" data-section="desayuno">Desayuno</a>
-      <a href="#comida" class="menu-link" data-section="comida">Comida</a>
-      <a href="#snacks" class="menu-link" data-section="snacks">Snacks</a>
-      <a href="#cena" class="menu-link" data-section="cena">Cena</a>
-    </main>
-
-    <section id="sectionScreen" class="screen section-view" aria-label="Sección de recetas">
-      <div class="section-shell">
-        <div class="topbar">
-          <button class="back" id="backButton" type="button">Volver</button>
-          <h1 class="section-title" id="sectionTitle">Comida</h1>
-        </div>
-
-        <div class="filters">
-          <div class="filter-group">
-            <div class="filter-label">Nutricion</div>
-            <div class="chips">
-              <button class="chip" type="button">Proteina alta</button>
-              <button class="chip" type="button">Rico en hidratos</button>
-              <button class="chip" type="button">Fibra</button>
-              <button class="chip" type="button">Vitamina C</button>
-              <button class="chip" type="button">Antioxidante</button>
-              <button class="chip" type="button">Grasas saludables</button>
-            </div>
-          </div>
-
-          <div class="filter-group">
-            <div class="filter-label">Sabores</div>
-            <div class="chips">
-              <button class="chip" type="button">Mediterraneo</button>
-              <button class="chip" type="button">Asia</button>
-              <button class="chip" type="button">Italiana</button>
-              <button class="chip" type="button">Citrico</button>
-              <button class="chip" type="button">Dulce</button>
-              <button class="chip" type="button">Salado</button>
-              <button class="chip" type="button">Picante</button>
-              <button class="chip" type="button">Umami</button>
-            </div>
-          </div>
-
-          <div class="filter-group">
-            <div class="filter-label">Technica</div>
-            <div class="chips">
-              <button class="chip" type="button">Rapido</button>
-              <button class="chip" type="button">Fresco</button>
-              <button class="chip" type="button">Horno</button>
-              <button class="chip" type="button">Cuchara</button>
-              <button class="chip" type="button">Plancha</button>
-              <button class="chip" type="button">Liquidos</button>
-            </div>
-          </div>
-        </div>
-
-        <p class="empty-note">Primera estructura de la web. De momento esta sección está pensada como maqueta visual: después iremos metiendo tus recetas reales, fotos, intros, ingredientes y macros.</p>
-
-        <div class="cards">
-          <article class="card">
-            <div class="card-image-wrap">
-              <div class="card-image">Salmón con arroz</div>
-            </div>
-            <div class="card-separator-space"></div>
-            <div class="card-separator"></div>
-            <div class="card-body">
-              <h2 class="card-title">Salmón con arroz y yogur de hierbas</h2>
-              <p class="card-intro">Plato fresco y saciante, con una salsa suave que le da equilibrio y un punto más gastronómico.</p>
-              <div class="card-grid">
-                <div class="meta-block">
-                  <div class="meta-label">Ingredientes</div>
-                  <div class="meta-content tech">200 g salmón, 150 g arroz, 1 yogur griego, 1/2 limón, pepino, eneldo</div>
-                </div>
-                <div class="meta-block">
-                  <div class="meta-label">Macros y detalles</div>
-                  <div class="meta-content tech">540 kcal · 36P · 42C · 24G<br><span class="muted">Mediterráneo · cítrico · proteína alta</span></div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-image-wrap">
-              <div class="card-image">Desayuno de avena</div>
-            </div>
-            <div class="card-separator-space"></div>
-            <div class="card-separator"></div>
-            <div class="card-body">
-              <h2 class="card-title">Avena con yogur y fruta</h2>
-              <p class="card-intro">Desayuno sencillo, cremoso y rápido, pensado para empezar con algo suave pero con bastante sustancia.</p>
-              <div class="card-grid">
-                <div class="meta-block">
-                  <div class="meta-label">Ingredientes</div>
-                  <div class="meta-content tech">3 huevos, 1 yogur, 40 g avena, fruta de temporada</div>
-                </div>
-                <div class="meta-block">
-                  <div class="meta-label">Macros y detalles</div>
-                  <div class="meta-content tech">430 kcal · 22P · 35C · 18G<br><span class="muted">Mediterráneo · dulce · rápido</span></div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    const homeScreen = document.getElementById('homeScreen');
-    const sectionScreen = document.getElementById('sectionScreen');
-    const sectionTitle = document.getElementById('sectionTitle');
-    const backButton = document.getElementById('backButton');
-    const links = document.querySelectorAll('[data-section]');
-    const chips = document.querySelectorAll('.chip');
-
-    function openSection(name){
-      sectionTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-      homeScreen.classList.remove('active');
-      sectionScreen.classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
-
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        openSection(link.dataset.section);
-      });
-    });
-
-    backButton.addEventListener('click', () => {
-      sectionScreen.classList.remove('active');
-      homeScreen.classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
-
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => chip.classList.toggle('active'));
-    });
-  </script>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="es"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;RECETARIO&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f7f7f7;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #222;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav a, .btn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-decoration: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #222;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>main {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 900px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 8px rgba(0,0,0,.06);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;RECETARIO&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Elige una categoría&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="desayuno.html"&gt;Desayuno&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="comida.html"&gt;Comida&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;a href="cena.html"&gt;Cena&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Bienvenido&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Esta es la página principal del recetario.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
 </body>
 </html>
