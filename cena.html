@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff; --text:#111111; --line:#111111; --muted:#5b5b5b; --radius:18px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+    a{text-decoration:none;color:inherit}
+    .page{min-height:100dvh;padding:28px 20px}
+    .shell{max-width:1200px;margin:0 auto}
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding-top:8px;margin-bottom:24px;border-top:1px solid var(--line);
+    }
+    .back{
+      border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;
+      font-family:'Space Mono',monospace;font-size:14px;
+    }
+    .title{font-size:28px;letter-spacing:-0.05em;font-weight:500}
+    .cards{display:grid;gap:32px}
+    .card{
+      border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;
+    }
+    .card-image-wrap{padding:16px 16px 0}
+    .card-image{
+      aspect-ratio:4/3;border-radius:12px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;
+      color:#666;font-size:16px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;
+    }
+    .card-separator-space{height:16px;background:#fff}
+    .card-separator{height:1px;background:var(--line)}
+    .card-body{padding:16px}
+    .card-title{font-size:22px;letter-spacing:-0.045em;margin-bottom:12px;font-weight:500}
+    .card-intro{font-size:16px;line-height:1.6;color:var(--text);margin-bottom:16px;max-width:54ch}
+    .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .meta-block{display:grid;gap:8px}
+    .meta-label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .meta-content{font-size:16px;line-height:1.5}
+    .meta-content.tech{font-family:'Space Mono', monospace}
+    .muted{color:var(--muted);font-family:'Inter',sans-serif}
+    @media (max-width: 720px){
+      .page{padding:20px 12px}
+      .card-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <div class="topbar">
+        <a href="index.html" class="back">Volver</a>
+        <h1 class="title">Cena</h1>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-image-wrap">
+            <div class="card-image">Cena ligera</div>
+          </div>
+          <div class="card-separator-space"></div>
+          <div class="card-separator"></div>
+          <div class="card-body">
+            <h2 class="card-title">Cena ligera de verduras y proteína</h2>
+            <p class="card-intro">Una cena simple, equilibrada y rápida para cerrar el día sin complicaciones.</p>
+            <div class="card-grid">
+              <div class="meta-block">
+                <div class="meta-label">Ingredientes</div>
+                <div class="meta-content tech">Verduras asadas, proteína magra, aceite de oliva, limón</div>
+              </div>
+              <div class="meta-block">
+                <div class="meta-label">Notas</div>
+                <div class="meta-content tech">Ligera · fácil · saciante<br><span class="muted">Maqueta visual</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
