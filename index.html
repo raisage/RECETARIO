@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recetario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --line:#111111;
+      --muted:#5b5b5b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter', sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{text-decoration:none;color:inherit}
+    .screen{min-height:100dvh;background:#fff}
+    .home{
+      display:grid;
+      grid-template-rows:repeat(4,minmax(0,1fr));
+      height:100dvh;
+      min-height:100dvh;
+    }
+    .menu-link{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      padding:16px 20px;
+      border-bottom:1px solid var(--line);
+      font-size:clamp(5.4rem, 16vw, 8rem);
+      letter-spacing:-0.085em;
+      line-height:0.82;
+      font-weight:500;
+      background:#fff;
+      transition:background .18s ease,color .18s ease;
+      min-height:0;
+    }
+    .menu-link:first-child{border-top:1px solid var(--line)}
+    .menu-link:hover,.menu-link:focus-visible{background:#111;color:#fff;outline:none}
+    @media (min-width: 900px){
+      .menu-link{padding:18px 28px;font-size:clamp(6rem, 9.5vw, 8.4rem);letter-spacing:-0.09em;line-height:0.8}
+    }
+  </style>
+</head>
+<body>
+  <main class="screen home" aria-label="Menú principal">
+    <a href="desayuno.html" class="menu-link">Desayuno</a>
+    <a href="comida.html" class="menu-link">Comida</a>
+    <a href="snacks.html" class="menu-link">Snacks</a>
+    <a href="cena.html" class="menu-link">Cena</a>
+  </main>
+</body>
+</html>
